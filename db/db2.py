@@ -5,7 +5,6 @@ engine = create_engine("postgresql+psycopg2://root:root@localhost/test_db")
 # engine.connect()
 # print(engine)
 
-
 # создаем модель, объекты которой будут храниться в бд
 Base = declarative_base()
 

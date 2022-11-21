@@ -1,27 +1,40 @@
+from sqlalchemy import Column, Integer, String
 from faker import Faker
 import os
 
 from random import random
-
-from db.db import create_db, Session
-from db.models import Student
-
-# from models.student import Student
+from db.db import SessionLocal, engine, Base
 
 fake = Faker('ru_RU')
 
-name = fake.name()
-# description = fake.address()
+
+class Student(Base):
+    __tablename__ = 'students'
+    __table_args__ = {"comment": "Студенты"}
+
+    id = Column(Integer, primary_key=True, comment="Идентификатор записи студента")
+    name = Column(String(255), nullable=False, unique=True, comment="Имя студента")
+    address = Column(String(255), nullable=False, unique=True, comment="Адрес студента")
+    age = Column(Integer, nullable=False, comment="Возраст студента")
+    course = Column(Integer, nullable=False, comment="Курс студента")
+    group = Column(Integer, nullable=False, comment="Группа студента")
+
+    def __init__(self, name: str, address: str, age: int, course: int, group: int):
+        self.name = name
+        self.address = address
+        self.age = age
+        self.course = course
+        self.group = group
+
+
+    def __repr__(self):
+        print(f'[Name: {self.name}]')
+
+
 # active = random.choice(bools)
 # weight = facker.random.randint(10, 100)
 # priority = random.choice(list(TodoTypeEnum))
 
-# student = Student(name)
-# create_db()
-#
-# db.add(student)
-# db.commit()
-# db.close()
 
 # print(fake.paragraph(nb_sentences=5))
 # # print(facker.lexify(text='Random Identifier: ??????????'))
@@ -29,18 +42,23 @@ name = fake.name()
 # # print(facker.numerify(text='Intel Core i%-%%##K vs AMD Ryzen % %%##X'))
 
 
-db_is_created = os.path.exists('test_db')
-print(db_is_created)
-create_db()
-db_is_created = os.path.exists('test_db')
-print(db_is_created)
-# create_db()
+
+
+Base.metadata.create_all(bind=engine)
+
+db = SessionLocal()
 #
-# session = Session()
+name = fake.name()
+address = fake.address()
+age = fake.random.randint(18, 25)
+course = fake.random.randint(1, 5)
+group = fake.random.randint(1, 10)
+# faculty = fake.
+
+student = Student(name=name, address=address, age=age, course=course, group=group)
 #
-# student = Student(name)
-#
-# session.add(student)
-#
-# session.commit()
-# session.close()
+db.add(student)     # добавляем в бд
+db.commit()     # сохраняем изменения
+db.close()
+
+
