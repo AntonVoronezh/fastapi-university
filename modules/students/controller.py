@@ -16,7 +16,6 @@ def get_all_students():
     return students
 
 
-
 @students_router.get('/{student_id}', response_model=StudentDTO, status_code=200, name='Получение студента')
 def get_student_by_id(student_id: int):
     student = db.query(Student).filter(Student.id == student_id).first()
