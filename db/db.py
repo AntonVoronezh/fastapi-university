@@ -15,3 +15,5 @@ Base = declarative_base()
 
 # создаем сессию подключения к бд
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
+
+db = SessionLocal()
