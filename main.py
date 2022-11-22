@@ -3,11 +3,13 @@
 from fastapi import FastAPI, status
 
 from modules.students.controller import students_router
+from modules.faculty.controller import faculties_router
 
 app = FastAPI()
 
 for r in (
         students_router,
+        faculties_router,
 ):
     app.include_router(r)
 

@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, String, Integer
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-engine = create_engine("postgresql+psycopg2://root:root@localhost/test_db")
+engine = create_engine("postgresql+psycopg2://root:root@localhost/test_db", pool_size=20, max_overflow=0)
 # engine.connect()
 # print(engine)
 
