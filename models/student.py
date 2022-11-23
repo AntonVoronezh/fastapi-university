@@ -7,7 +7,7 @@ class StudentBaseDto(BaseModel):
     age: int
     course: int
     group: int
-
+    faculty_id: int
 
 class StudentDTO(StudentBaseDto):
     id: int

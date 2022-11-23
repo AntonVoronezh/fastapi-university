@@ -4,7 +4,7 @@ from fastapi import status
 from db.db import db
 from models.faculty import FacultyDTO, FacultyBaseDto
 from shared.controllers import api_router_factory
-from utils.generate_faculty import Faculty
+from utils.generate_tables import Faculty
 
 faculties_router = api_router_factory("faculties")
 

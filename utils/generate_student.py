@@ -1,34 +1,18 @@
-from sqlalchemy import Column, Integer, String
+from typing import List
+
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from faker import Faker
 import os
 
 from random import random
 from db.db import SessionLocal, engine, Base
 
+import generate_faculty
+from utils.generate_tables import Student
+
 fake = Faker('ru_RU')
 
-
-class Student(Base):
-    __tablename__ = 'students'
-    __table_args__ = {"comment": "Студенты"}
-
-    id = Column(Integer, primary_key=True, comment="Идентификатор записи студента")
-    name = Column(String(255), nullable=False, unique=True, comment="Имя студента")
-    address = Column(String(255), nullable=False, unique=True, comment="Адрес студента")
-    age = Column(Integer, nullable=False, comment="Возраст студента")
-    course = Column(Integer, nullable=False, comment="Курс студента")
-    group = Column(Integer, nullable=False, comment="Группа студента")
-
-    def __init__(self, name: str, address: str, age: int, course: int, group: int):
-        self.name = name
-        self.address = address
-        self.age = age
-        self.course = course
-        self.group = group
-
-
-    def __repr__(self):
-        print(f'[Name: {self.name}]')
 
 
 # active = random.choice(bools)
@@ -44,7 +28,6 @@ class Student(Base):
 
 
 
-Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 #
@@ -53,10 +36,10 @@ address = fake.address()
 age = fake.random.randint(18, 25)
 course = fake.random.randint(1, 5)
 group = fake.random.randint(1, 10)
-# faculty = fake.
+faculty_id = fake.random.randint(1, 9)
 
-student = Student(name=name, address=address, age=age, course=course, group=group)
-#
+student = Student(name=name, address=address, age=age, course=course, group=group, faculty_id=faculty_id)
+
 db.add(student)     # добавляем в бд
 db.commit()     # сохраняем изменения
 db.close()

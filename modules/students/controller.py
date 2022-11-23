@@ -4,7 +4,7 @@ from fastapi import status
 from db.db import db
 from models.student import StudentDTO, StudentBaseDto
 from shared.controllers import api_router_factory
-from utils.generate_student import Student
+from utils.generate_tables import Student
 
 students_router = api_router_factory("students")
 
