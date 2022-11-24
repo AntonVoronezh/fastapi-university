@@ -2,7 +2,7 @@ from faker import Faker
 
 
 from db.db import SessionLocal, engine, Base
-from utils.generate_tables import Faculty, Student
+from tables.generate_tables import Faculty, Student, StudentInfo
 
 fake = Faker('ru_RU')
 db = SessionLocal()
@@ -22,6 +22,7 @@ faculty_names = [
 ]
 
 faculty_list = []
+student_list = []
 
 for f in faculty_names:
     housing = fake.random.choices(housing_names)[0]
@@ -35,16 +36,44 @@ for f in faculty_names:
 db.commit()
 
 for _ in range(100):
-    name = fake.name()
-    address = fake.address()
-    age = fake.random.randint(18, 25)
+    name = fake.name().split(' ')
     course = fake.random.randint(1, 5)
     group = fake.random.randint(1, 10)
     faculty_id = fake.random.choices(faculty_list)[0].id
 
-    student = Student(name=name, address=address, age=age, course=course, group=group, faculty_id=faculty_id)
+    student = Student(first_name=name[0], second_name=name[1], family=name[2], course=course, group=group, faculty_id=faculty_id)
     # print(student)
     db.add(student)
+    student_list.append(student)
+
+db.commit()
+
+
+# for s in db.query(Student):
+#     address = fake.address()
+#     age = fake.random.randint(18, 25)
+#
+#     if s.id % 3 == 0:
+#         s.info = None
+#     else:
+#         student_info = StudentInfo(address=address, age=age, student_id=s.id)
+#         s.info = student_info
+#
+#     # print(student_info)
+#     db.add(s)
+
+for i, s in enumerate(student_list):
+    address = fake.address()
+    age = fake.random.randint(18, 25)
+
+    if i % 3 == 0:
+        student_info = StudentInfo(address=None, age=None, student_id=s.id)
+    else:
+        student_info = StudentInfo(address=address, age=age, student_id=s.id)
+
+
+    # print(student_info)
+    db.add(student_info)
 
 db.commit()
 

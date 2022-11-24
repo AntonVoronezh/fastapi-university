@@ -4,7 +4,7 @@ from fastapi import status
 from db.db import db
 from models.faculty import FacultyDTO, FacultyBaseDto
 from shared.controllers import api_router_factory
-from utils.generate_tables import Faculty
+from tables.generate_tables import Faculty
 
 faculties_router = api_router_factory("faculties")
 
@@ -13,19 +13,18 @@ faculties_router = api_router_factory("faculties")
                      name='Получение всех факультетов')
 def get_all_faculties():
     faculties = db.query(Faculty).all()
-    faculties = db.query(Faculty).all()
     return faculties
 
 
-@faculties_router.get('/{faculty_id}', response_model=FacultyDTO, status_code=200, name='Получение факультета')
-def get_student_by_id(faculty_id: int):
-    faculty = db.query(Faculty).filter(Faculty.id == faculty_id).first()
+@faculties_router.get('/{id}', response_model=FacultyDTO, status_code=200, name='Получение факультета')
+def get_faculty(id: int):
+    faculty = db.query(Faculty).filter(Faculty.id == id).first()
 
     return faculty
 
 
 @faculties_router.post('/', response_model=FacultyDTO, status_code=201, name='Запись нового факультета')
-def create_student(item: FacultyBaseDto):
+def create_faculty(item: FacultyBaseDto):
     faculty = db.query(Faculty).filter(Faculty.name == item.name).first()
 
     if faculty is not None:
@@ -39,9 +38,9 @@ def create_student(item: FacultyBaseDto):
     return new_faculty
 
 
-@faculties_router.put('/{faculty_id}', response_model=FacultyDTO, status_code=200, name='Обновление факультета')
-def update_student_by_id(faculty_id: int, item: FacultyBaseDto):
-    faculty_to_update = db.query(Faculty).filter(Faculty.id == faculty_id).first()
+@faculties_router.put('/{id}', response_model=FacultyDTO, status_code=200, name='Обновление факультета')
+def update_faculty(id: int, item: FacultyBaseDto):
+    faculty_to_update = db.query(Faculty).filter(Faculty.id == id).first()
 
     faculty_to_update.name = item.name
     faculty_to_update.housing = item.housing
@@ -51,9 +50,9 @@ def update_student_by_id(faculty_id: int, item: FacultyBaseDto):
     return faculty_to_update
 
 
-@faculties_router.delete('/{faculty_id}')
-def delete_student_by_id(faculty_id: int):
-    faculty_to_delete = db.query(Faculty).filter(Faculty.id == faculty_id).first()
+@faculties_router.delete('/{id}', status_code=204, name='Удаление факультета')
+def delete_faculty(id: int):
+    faculty_to_delete = db.query(Faculty).filter(Faculty.id == id).first()
 
     if faculty_to_delete is None:
         raise HTTPException(status_code=404, detail='факультет не найден')
@@ -62,3 +61,4 @@ def delete_student_by_id(faculty_id: int):
     db.commit()
 
     return faculty_to_delete
+

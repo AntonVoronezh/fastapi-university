@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
 from models.student import StudentDTO
-from utils.generate_tables import Student
 
 
 class FacultyBaseDto(BaseModel):
