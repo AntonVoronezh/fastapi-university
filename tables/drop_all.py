@@ -1,5 +1,7 @@
 from db.db import Base, engine
 
-from generate_tables import Student, Faculty, Faculty, Housing, faculty_housing
+from models.faculty import Faculty
+from models.group import Group
+from models.housing import Housing
 
 Base.metadata.drop_all(bind=engine)

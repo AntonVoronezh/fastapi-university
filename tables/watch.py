@@ -1,12 +1,30 @@
 from db.db import SessionLocal
-from tables.generate_tables import Student, Faculty, Housing
+from models.faculty import Faculty
+from models.housing import Housing
 
 session = SessionLocal()
 
-for it in session.query(Student):
-    ...
-    # print(it)
 
+def get_all_faculty():
+    res = []
+    for it in session.query(Faculty):
+        if __name__ == "__main__":
+            print(f'{it.id} - {it.name}')
+        res.append(it)
+    return res
+
+
+def get_all_housing():
+    res = []
+    for it in session.query(Housing):
+        if __name__ == "__main__":
+            print(f'{it.id} - {it.name}')
+        res.append(it)
+    return res
+
+
+# get_all_faculty()
+get_all_housing()
 
 # for i, it in enumerate(session.query(Faculty)):
 #     # ...
@@ -19,7 +37,3 @@ for it in session.query(Student):
 #     for f in it.faculty:
 #         print(f)
 #     print('-' * 50)
-
-
-
-
