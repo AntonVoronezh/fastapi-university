@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
 from db.db import Base, engine
@@ -29,23 +29,6 @@ class Student(Base):
         return f'#Student Name: {self.family}, id={self.id}'
 
 
-class Faculty(Base):
-    __tablename__ = 'faculty'
-    __table_args__ = {"comment": "Факультеты"}
-
-    id = Column(Integer, primary_key=True, comment="Идентификатор записи факультета")
-    name = Column(String(255), nullable=False, unique=True, comment="Название факультета")
-    housing = Column(String(255), nullable=False, comment="Корпус факультета")
-    students = relationship("Student")
-
-    def __init__(self, name: str, housing: str):
-        self.name = name
-        self.housing = housing
-
-    def __repr__(self):
-        return f'#Faculty: {self.name}, id={self.id}, housing={self.housing}, students={self.students} \n'
-
-
 class StudentInfo(Base):
     __tablename__ = 'student_info'
     __table_args__ = {"comment": "Информаци о студенте"}
@@ -62,6 +45,43 @@ class StudentInfo(Base):
 
     def __repr__(self):
         return f'#StudentInfo: id={self.id} \n'
+
+
+# через таблицу
+faculty_housing = Table('faculty_housing', Base.metadata,
+                        Column('faculty_id', Integer(), ForeignKey("faculty.id")),
+                        Column('housing_id', Integer(), ForeignKey("housing.id"))
+                        )
+
+
+class Faculty(Base):
+    __tablename__ = 'faculty'
+    __table_args__ = {"comment": "Факультеты"}
+
+    id = Column(Integer, primary_key=True, comment="Идентификатор записи факультета")
+    name = Column(String(255), nullable=False, unique=True, comment="Название факультета")
+    students = relationship("Student")
+
+    def __init__(self, name: str):
+        self.name = name
+
+    def __repr__(self):
+        return f'#Faculty: {self.name}, id={self.id}, students={self.students} \n'
+
+
+class Housing(Base):
+    __tablename__ = 'housing'
+    __table_args__ = {"comment": "Корпуса"}
+
+    id = Column(Integer, primary_key=True, comment="Идентификатор записи корпуса")
+    name = Column(String(255), nullable=False, unique=True, comment="Название корпуса")
+    faculty = relationship("Faculty", secondary=faculty_housing, backref="housing")
+
+    def __init__(self, name: str):
+        self.name = name
+
+    def __repr__(self):
+        return f'#Housing: {self.name}, id={self.id} \n'
 
 
 Base.metadata.create_all(bind=engine)

@@ -1,13 +1,11 @@
 from pydantic import BaseModel
 
-class FacultyBaseDto(BaseModel):
+class HousingBaseDto(BaseModel):
     name: str
 
 
-class FacultyDTO(FacultyBaseDto):
+class HousingDTO(HousingBaseDto):
     id: int
 
     class Config:
         orm_mode = True
-
-

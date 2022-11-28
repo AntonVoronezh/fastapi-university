@@ -1,30 +1,29 @@
 from http.client import HTTPException
-from fastapi import status
 
 from db.db import db
-from models.faculty import FacultyDTO, FacultyBaseDto
+from models.faculty_out import FacultyWithStudentsDTO, FacultyBaseWithStudentsDto
 from shared.controllers import api_router_factory
 from tables.generate_tables import Faculty
 
 faculties_router = api_router_factory("faculties")
 
 
-@faculties_router.get('/', response_model=list[FacultyDTO], status_code=200,
+@faculties_router.get('/', response_model=list[FacultyWithStudentsDTO], status_code=200,
                      name='Получение всех факультетов')
 def get_all_faculties():
     faculties = db.query(Faculty).all()
     return faculties
 
 
-@faculties_router.get('/{id}', response_model=FacultyDTO, status_code=200, name='Получение факультета')
+@faculties_router.get('/{id}', response_model=FacultyWithStudentsDTO, status_code=200, name='Получение факультета')
 def get_faculty(id: int):
     faculty = db.query(Faculty).filter(Faculty.id == id).first()
 
     return faculty
 
 
-@faculties_router.post('/', response_model=FacultyDTO, status_code=201, name='Запись нового факультета')
-def create_faculty(item: FacultyBaseDto):
+@faculties_router.post('/', response_model=FacultyWithStudentsDTO, status_code=201, name='Запись нового факультета')
+def create_faculty(item: FacultyBaseWithStudentsDto):
     faculty = db.query(Faculty).filter(Faculty.name == item.name).first()
 
     if faculty is not None:
@@ -38,8 +37,8 @@ def create_faculty(item: FacultyBaseDto):
     return new_faculty
 
 
-@faculties_router.put('/{id}', response_model=FacultyDTO, status_code=200, name='Обновление факультета')
-def update_faculty(id: int, item: FacultyBaseDto):
+@faculties_router.put('/{id}', response_model=FacultyWithStudentsDTO, status_code=200, name='Обновление факультета')
+def update_faculty(id: int, item: FacultyBaseWithStudentsDto):
     faculty_to_update = db.query(Faculty).filter(Faculty.id == id).first()
 
     faculty_to_update.name = item.name
