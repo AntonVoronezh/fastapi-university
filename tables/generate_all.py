@@ -2,8 +2,9 @@ from faker import Faker
 from random import randint
 
 from db.db import SessionLocal
+from models.subject import Subject
 from tables.generate_tables import Faculty, Housing, Group
-from tables.watch import get_all_faculty, get_all_housing, get_all_group
+from tables.watch import get_all_faculty, get_all_housing, get_all_group, get_all_subject
 
 fake = Faker('ru_RU')
 db = SessionLocal()
@@ -33,6 +34,13 @@ faculty_names = [
     'Факультет психологии', 'Факультет права', 'Факультет юриспруденции', 'Факультет экономики',
     'Факультет геологии', 'Факультет отношений'
 ]
+academic_subject = [
+    'Авто', 'Мото', 'Бизнес','Финансы', 'Города', 'Страны', 'Гороскопы', 'Магия', 'Гадания',
+    'Досуг', 'Развлечения', 'Еда', 'Кулинария', 'Животные', 'Растения', 'Знакомства', 'Любовь',
+    'Искусство', 'Культура', 'Видео игры', 'Компьютеры', 'Связь', 'Красота', 'Здоровье',
+    'Наука', 'Техника', 'Языки', 'Общество', 'Политика', 'СМИ', 'Программирование',
+    'Путешествия', 'Туризм', 'Работа', 'Карьера', 'Семья', 'Дом', 'Дети', 'Отношения',
+]
 group_names = []
 group_by_course_names = []
 
@@ -50,6 +58,7 @@ for i in range(5):
 faculty_list = []
 housing_list = []
 group_list = []
+subject_list = []
 
 student_list = []
 
@@ -91,3 +100,15 @@ db.close()
 
 group_list = get_all_group()
 # print(*group_list, sep='')
+
+
+# предметы
+for sub in academic_subject:
+    subject = Subject(name=sub)
+
+    db.add(subject)
+db.commit()
+db.close()
+
+subject_list = get_all_subject()
+print(*subject_list, sep='')
