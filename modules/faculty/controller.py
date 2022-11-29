@@ -1,10 +1,8 @@
-from http.client import HTTPException
-
 from db.db import db
+from models.faculty import Faculty
 from modules.faculty.dto import FacultyDTO
 
 from shared.controllers import api_router_factory
-from tables.generate_tables import Faculty
 
 faculties_router = api_router_factory("faculties")
 
@@ -14,6 +12,7 @@ faculties_router = api_router_factory("faculties")
 def get_all_faculties():
     faculties = db.query(Faculty).all()
     return faculties
+
 
 
 @faculties_router.get('/{id}', response_model=FacultyDTO, status_code=200, name='Получение факультета')

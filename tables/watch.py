@@ -43,19 +43,8 @@ def get_all_subject():
     return res
 
 
-# get_all_faculty()
+get_all_faculty()
 # get_all_housing()
 # get_all_group()
 # get_all_subject()
 
-# for i, it in enumerate(session.query(Faculty)):
-#     # ...
-#     print(i, it)
-#     print(len(it.students))
-#     print('-' * 10)
-
-# for i, it in enumerate(session.query(Housing)):
-#     # print(*it.faculty, end='\n\n\n')
-#     for f in it.faculty:
-#         print(f)
-#     print('-' * 50)

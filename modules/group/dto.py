@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class GroupBaseDto(BaseModel):
     name: str
     course: int
+    faculty_id: int or None
 
 
 class GroupDTO(GroupBaseDto):

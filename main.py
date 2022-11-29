@@ -9,11 +9,13 @@ from modules.subject.controller import subjects_router
 
 app = FastAPI()
 
+
+
+
 for r in (
         faculties_router,
         housing_router,
         group_router,
-        subjects_router
+        subjects_router,
 ):
     app.include_router(r)
-

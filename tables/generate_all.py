@@ -52,15 +52,9 @@ for name in faculty_names:
 for i in range(5):
     group_by_course_names.append([])
     for j in group_names:
-        group_by_course_names[i].append(f'{j}:{i}')
+        group_by_course_names[i].append(f'{j}:{i+1}')
 
 
-faculty_list = []
-housing_list = []
-group_list = []
-subject_list = []
-
-student_list = []
 
 # факультеты
 for item in faculty_names:
@@ -69,13 +63,12 @@ for item in faculty_names:
 db.commit()
 db.close()
 
-faculty_list = get_all_faculty()
-# print(*faculty_list, sep='')
+# print(*get_all_faculty(), sep='')
 
 # корпуса
 for item in housing_names:
     housing = Housing(name=item)
-    arr = gen_arr(faculty_list)
+    arr = gen_arr(get_all_faculty())
 
     # for i in arr:
     #     housing.faculty.append(faculty_list[i])
@@ -84,22 +77,21 @@ for item in housing_names:
 db.commit()
 db.close()
 
-housing_list = get_all_housing()
-# print(*housing_list, sep='')
+# print(*get_all_housing(), sep='')
 
 
 # группы
 for item in group_by_course_names:
     for it in item:
-        course = int(it.split(':')[1]) + 1
-        group = Group(name=it, course=course)
+        course = int(it.split(':')[1])
+
+        group = Group(name=it, course=course, faculty_id=None)
 
         db.add(group)
 db.commit()
 db.close()
 
-group_list = get_all_group()
-# print(*group_list, sep='')
+# print(*get_all_group(), sep='')
 
 
 # предметы
@@ -110,5 +102,21 @@ for sub in academic_subject:
 db.commit()
 db.close()
 
-subject_list = get_all_subject()
-print(*subject_list, sep='')
+# print(*get_all_subject(), sep='')
+
+
+# в группы добавить факультеты
+for item in db.query(Group):
+    faculty_id = None
+    for f in db.query(Faculty):
+        spl_f = f.name.split(' ')
+        spl_name = item.name.split(':')
+        if f'{spl_f[0][0:1].upper()}-{spl_f[1][0:4].upper()}' == spl_name[0]:
+            faculty_id = f.id
+
+    item.faculty_id = faculty_id
+    db.add(item)
+db.commit()
+db.close()
+
+# print(*get_all_group(), sep='')
