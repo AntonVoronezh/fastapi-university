@@ -1,5 +1,5 @@
 from db.db import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 class Housing(Base):
     __tablename__ = 'housing'
@@ -7,11 +7,11 @@ class Housing(Base):
 
     id = Column(Integer, primary_key=True, comment="Идентификатор записи корпуса")
     name = Column(String(255), nullable=False, unique=True, comment="Название корпуса")
-    # faculty = relationship("Faculty", secondary=faculty_housing, backref="housing")
-    # group = relationship('Group', backref='group', uselist=False)
+    faculty_id = Column(Integer, ForeignKey('faculty.id'))
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, faculty_id: int):
         self.name = name
+        self.faculty_id = faculty_id
 
     def __repr__(self):
         return f'#Housing: {self.name}, id={self.id} \n'

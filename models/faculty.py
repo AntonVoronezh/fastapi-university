@@ -9,6 +9,7 @@ class Faculty(Base):
     id = Column(Integer, primary_key=True, comment="Идентификатор записи факультета")
     name = Column(String(255), nullable=False, unique=True, comment="Название факультета")
     groups = relationship("Group")
+    housings = relationship("Housing")
 
     def __init__(self, name: str):
         self.name = name

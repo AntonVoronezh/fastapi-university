@@ -67,12 +67,9 @@ db.close()
 
 # корпуса
 for item in housing_names:
-    housing = Housing(name=item)
+    housing = Housing(name=item, faculty_id=None)
     arr = gen_arr(get_all_faculty())
 
-    # for i in arr:
-    #     housing.faculty.append(faculty_list[i])
-    #
     db.add(housing)
 db.commit()
 db.close()
@@ -120,3 +117,19 @@ db.commit()
 db.close()
 
 # print(*get_all_group(), sep='')
+
+
+# в корпуса добавить факультеты
+for item in db.query(Housing):
+    f = []
+    for it in db.query(Faculty):
+        f.append(it)
+    rand = randint(0, len(f) - 1)
+    faculty_id = f[rand].id
+    item.faculty_id = faculty_id
+
+    db.add(item)
+db.commit()
+db.close()
+
+# print(*get_all_housing(), sep='')
