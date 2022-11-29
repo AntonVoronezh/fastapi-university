@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 class GroupBaseDto(BaseModel):
     name: str
+    course: int
 
 
 class GroupDTO(GroupBaseDto):

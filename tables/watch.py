@@ -1,5 +1,6 @@
 from db.db import SessionLocal
 from models.faculty import Faculty
+from models.group import Group
 from models.housing import Housing
 
 session = SessionLocal()
@@ -23,8 +24,18 @@ def get_all_housing():
     return res
 
 
+def get_all_group():
+    res = []
+    for it in session.query(Group):
+        if __name__ == "__main__":
+            print(f'{it.id} - {it.name}')
+        res.append(it)
+    return res
+
+
 # get_all_faculty()
-get_all_housing()
+# get_all_housing()
+# get_all_group()
 
 # for i, it in enumerate(session.query(Faculty)):
 #     # ...

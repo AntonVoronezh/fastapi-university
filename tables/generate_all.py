@@ -3,7 +3,7 @@ from random import randint
 
 from db.db import SessionLocal
 from tables.generate_tables import Faculty, Housing, Group
-from tables.watch import get_all_faculty, get_all_housing
+from tables.watch import get_all_faculty, get_all_housing, get_all_group
 
 fake = Faker('ru_RU')
 db = SessionLocal()
@@ -78,21 +78,16 @@ db.close()
 housing_list = get_all_housing()
 # print(*housing_list, sep='')
 
-# db.commit()
-#
-# for f, g in enumerate(faculty_list):
-#     for i in range(7):
-#         # name = g.name.split(' ')
-#         # name_f = f'{name[0][0:3].upper()}-{name[1][0:4].upper()}-{i + 1}'
-#         # group = Group(name=name_f, faculty_id=g.id, housing_id=)
-#         print(len(g.housing))
-#         print(g.name)
-#         # group_list.append(group)
-#         # db.add(group)
-#
-# # print(*housing_list, sep='\n')
-#
 
+# группы
+for item in group_by_course_names:
+    for it in item:
+        course = int(it.split(':')[1]) + 1
+        group = Group(name=it, course=course)
 
-# db.commit()
-# db.close()
+        db.add(group)
+db.commit()
+db.close()
+
+group_list = get_all_group()
+# print(*group_list, sep='')
