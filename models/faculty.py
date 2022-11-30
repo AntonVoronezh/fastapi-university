@@ -10,6 +10,7 @@ class Faculty(Base):
     name = Column(String(255), nullable=False, unique=True, comment="Название факультета")
     groups = relationship("Group")
     housings = relationship("Housing")
+    info = relationship('FacultyInfo', backref='faculty', uselist=False)
 
     def __init__(self, name: str):
         self.name = name

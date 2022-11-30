@@ -2,6 +2,7 @@ from faker import Faker
 from random import randint
 
 from db.db import SessionLocal
+from models.faculty_info import FacultyInfo
 from models.subject import Subject
 from tables.generate_tables import Faculty, Housing, Group
 from tables.watch import get_all_faculty, get_all_housing, get_all_group, get_all_subject
@@ -165,6 +166,14 @@ db.close()
 
 
 # в факультеты добавить описание (один к одному)
+for item in db.query(Faculty):
+    description = fake.paragraphs(nb=5)
+    img = fake.file_extension(category='image')
+    item.info = FacultyInfo(description=description, img=img, faculty_id=item.id)
+    db.add(item)
+db.commit()
+db.close()
+
 
 
 # добавить студентов
