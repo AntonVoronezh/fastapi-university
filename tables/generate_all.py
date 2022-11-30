@@ -82,7 +82,7 @@ for item in group_by_course_names:
     for it in item:
         course = int(it.split(':')[1])
 
-        group = Group(name=it, course=course, faculty_id=None)
+        group = Group(name=it, course=course, faculty_id=None, housing_id=None)
 
         db.add(group)
 db.commit()
@@ -102,7 +102,7 @@ db.close()
 # print(*get_all_subject(), sep='')
 
 
-# в группы добавить факультеты
+# в группы добавить факультеты (один ко многим)
 for item in db.query(Group):
     faculty_id = None
     for f in db.query(Faculty):
@@ -119,7 +119,7 @@ db.close()
 # print(*get_all_group(), sep='')
 
 
-# в корпуса добавить факультеты
+# в корпуса добавить факультеты (один ко многим)
 for item in db.query(Housing):
     f = []
     for it in db.query(Faculty):
@@ -133,3 +133,37 @@ db.commit()
 db.close()
 
 # print(*get_all_housing(), sep='')
+
+
+# в корпуса добавить группы (один ко многим)
+for item in db.query(Group):
+    f = []
+    for it in db.query(Housing):
+        f.append(it)
+    rand = randint(0, len(f) - 1)
+    housing_id = f[rand].id
+    item.housing_id = housing_id
+
+    db.add(item)
+db.commit()
+db.close()
+# print(*get_all_group(), sep='')
+
+# в группы добавить предметы (многие ко многим)
+
+
+# в факультеты добавить описание (один к одному)
+
+
+# добавить студентов
+
+
+# в студентов добавить описание (один к одному)
+
+
+# в группы добавить студентов (один ко многим)
+
+
+
+
+
