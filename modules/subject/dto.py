@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class SubjectBaseDto(BaseModel):
     name: str
 

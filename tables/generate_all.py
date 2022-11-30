@@ -149,7 +149,19 @@ db.commit()
 db.close()
 # print(*get_all_group(), sep='')
 
+
 # в группы добавить предметы (многие ко многим)
+for item in db.query(Subject):
+    f = []
+    for it in db.query(Group):
+        f.append(it)
+    for i in range(25):
+        rand = randint(0, len(f) - 1)
+        item.groups.append(f[rand])
+
+    db.add(item)
+db.commit()
+db.close()
 
 
 # в факультеты добавить описание (один к одному)
