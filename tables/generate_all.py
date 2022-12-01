@@ -4,6 +4,7 @@ from random import randint
 from db.db import SessionLocal
 from models.faculty_info import FacultyInfo
 from models.student import Student
+from models.student_info import StudentInfo
 from models.subject import Subject
 from tables.generate_tables import Faculty, Housing, Group
 from tables.watch import get_all_faculty, get_all_housing, get_all_group, get_all_subject
@@ -192,7 +193,14 @@ db.close()
 
 
 # в студентов добавить описание (один к одному)
-
+for item in db.query(Student):
+    description = fake.paragraphs(nb=4)
+    img = fake.file_extension(category='image')
+    address = fake.address()
+    item.info = StudentInfo(description=description, img=img, student_id=item.id, address=address)
+    db.add(item)
+db.commit()
+db.close()
 
 # в группы добавить студентов (один ко многим)
 

@@ -1,5 +1,6 @@
 from db.db import Base
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 
 class Student(Base):
@@ -11,6 +12,7 @@ class Student(Base):
     second_name = Column(String(255), nullable=False, comment="Отчество Студента")
     family = Column(String(255), nullable=False, comment="Фамилия Студента")
     age = Column(Integer, nullable=False, comment="Возраст Студента")
+    info = relationship('StudentInfo', backref='student', uselist=False)
 
     def __init__(self, first_name: str, second_name: str, family: str, age: int):
         self.first_name = first_name
