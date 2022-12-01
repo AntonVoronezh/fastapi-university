@@ -21,22 +21,22 @@ def get_student(id: int):
     student = db.query(Student).filter(Student.id == id).first()
 
     return student
-#
-#
-# @housing_router.post('/', response_model=HousingWithFacultyDTO, status_code=201, name='Запись нового корпуса')
-# def create_faculty(item: HousingBaseWithFacultyDto):
-#     housing = db.query(Housing).filter(Housing.name == item.name).first()
-#
-#     if housing is not None:
-#         return HTTPException(status_code=400, detail='Не существует')
-#
-#     new_housing = Housing(name=item.name)
-#
-#     db.add(new_housing)
-#     db.commit()
-#
-#     return new_housing
-#
+
+
+@student_router.post('/', response_model=HousingWithFacultyDTO, status_code=201, name='Запись нового корпуса')
+def create_faculty(item: HousingBaseWithFacultyDto):
+    housing = db.query(Housing).filter(Housing.name == item.name).first()
+
+    if housing is not None:
+        return HTTPException(status_code=400, detail='Не существует')
+
+    new_housing = Housing(name=item.name)
+
+    db.add(new_housing)
+    db.commit()
+
+    return new_housing
+
 #
 # @housing_router.put('/{id}', response_model=HousingWithFacultyDTO, status_code=200, name='Обновление корпуса')
 # def update_housing(id: int, item: HousingBaseWithFacultyDto):

@@ -9,6 +9,8 @@ class StudentBaseDto(BaseModel):
     family: str
     age: int
     info: StudentInfoDTO
+    group_id: int or None
+
 
 class StudentDTO(StudentBaseDto):
     id: int

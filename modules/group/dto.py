@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from modules.student.dto import StudentDTO
+
 
 class GroupBaseDto(BaseModel):
     name: str

@@ -185,7 +185,7 @@ for item in range(100):
     second_name = f[1]
     family = f[2]
     age = randint(18, 30)
-    student = Student(first_name=first_name, second_name=second_name, family=family, age=age)
+    student = Student(first_name=first_name, second_name=second_name, family=family, age=age, group_id=None)
 
     db.add(student)
 db.commit()
@@ -203,8 +203,16 @@ db.commit()
 db.close()
 
 # в группы добавить студентов (один ко многим)
+for item in db.query(Student):
+    f = []
+    for it in db.query(Group):
+        f.append(it)
+    rand = randint(0, len(f) - 1)
+    item.group_id = f[rand].id
 
-
+    db.add(item)
+db.commit()
+db.close()
 
 
 

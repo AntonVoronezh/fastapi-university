@@ -1,5 +1,6 @@
 from db.db import Base
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Group(Base):
@@ -11,6 +12,7 @@ class Group(Base):
     course = Column(Integer, nullable=False, comment="Курс группы")
     faculty_id = Column(Integer, ForeignKey('faculty.id'))
     housing_id = Column(Integer, ForeignKey('housing.id'))
+    students = relationship("Student")
 
     def __init__(self, name: str, course: int, faculty_id: int or None, housing_id: int or None):
         self.name = name
