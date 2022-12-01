@@ -6,16 +6,15 @@ from modules.faculty.controller import faculties_router
 from modules.housing.controller import housing_router
 from modules.group.controller import group_router
 from modules.subject.controller import subjects_router
+from modules.student.controller import student_router
 
 app = FastAPI()
-
-
-
 
 for r in (
         faculties_router,
         housing_router,
         group_router,
         subjects_router,
+        student_router,
 ):
     app.include_router(r)

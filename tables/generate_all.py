@@ -3,6 +3,7 @@ from random import randint
 
 from db.db import SessionLocal
 from models.faculty_info import FacultyInfo
+from models.student import Student
 from models.subject import Subject
 from tables.generate_tables import Faculty, Housing, Group
 from tables.watch import get_all_faculty, get_all_housing, get_all_group, get_all_subject
@@ -177,6 +178,17 @@ db.close()
 
 
 # добавить студентов
+for item in range(100):
+    f = fake.name().split(' ')
+    first_name = f[0]
+    second_name = f[1]
+    family = f[2]
+    age = randint(18, 30)
+    student = Student(first_name=first_name, second_name=second_name, family=family, age=age)
+
+    db.add(student)
+db.commit()
+db.close()
 
 
 # в студентов добавить описание (один к одному)
