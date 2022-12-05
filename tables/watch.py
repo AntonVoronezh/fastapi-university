@@ -1,5 +1,5 @@
 
-from sqlalchemy import or_, and_, not_, desc
+from sqlalchemy import or_, and_, not_, desc, func, String, cast, union
 from db.db import SessionLocal
 from models.faculty import Faculty
 from models.housing import Housing
@@ -211,4 +211,66 @@ def get_outer_join():
     res = session.query(Student.first_name, Group.name).outerjoin(Group).all()
     print(res)
 
-get_outer_join()
+# get_outer_join()
+
+
+# принимает одну или несколько колонок и группирует записи в соответствии со значениями
+def get_group_by():
+    # SELECT student.first_name, student.second_name
+    # FROM student GROUP BY student.id
+    res = session.query(Student.first_name, Student.second_name).group_by(Student.id)
+    print(res)
+
+# get_group_by()
+
+
+def get_group_by():
+    # SELECT student.first_name, student.second_name
+    # FROM student GROUP BY student.id
+    res = session.query(Student.first_name, Student.second_name).group_by(Student.id)
+    print(res)
+
+# get_group_by()
+
+
+# отфильтровать результаты на основе значений, которые возвращают агрегирующие функции,
+def get_having():
+    # SELECT student.first_name, student.second_name
+    # FROM student GROUP BY student.id
+    res = session.query(Subject).group_by(Group.id).having(func.count(Subject.id) > 2).all()
+    print(res)
+
+# get_having()
+
+
+# с повторяющимися записями
+def get_distinct():
+    # SELECT DISTINCT faculty.name
+    # FROM faculty
+    # WHERE faculty.id < 10
+    res = session.query(Faculty).filter(Faculty.id < 10).distinct()
+    print(res)
+
+# get_distinct()
+
+
+# Приведение (конвертация) данных от одного типа к другому
+def get_cast():
+    # SELECT CAST(faculty.id AS VARCHAR) AS faculty_id
+    # FROM faculty
+    res = session.query(cast(Faculty.id, String))
+    print(res)
+
+# get_cast()
+
+
+# Для объединения запросов
+def get_union():
+    # SELECT CAST(faculty.id AS VARCHAR) AS faculty_id
+    # FROM faculty
+    res_1 = session.query(Faculty).filter(Faculty.name.like("%ы"))
+    res_2 = session.query(Faculty).filter(Faculty.name.like("%а"))
+    print(res_1.union(res_2))
+    # print(res_1.union(res_2).all())
+
+get_union()
