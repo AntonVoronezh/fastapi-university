@@ -17,3 +17,4 @@ class Faculty(Base):
 
     def __repr__(self):
         return f'#Faculty: {self.name}, id={self.id}, groups={self.groups} \n'
+
