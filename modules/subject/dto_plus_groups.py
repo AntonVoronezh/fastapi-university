@@ -11,5 +11,3 @@ class SubjectPlusGroupsDTO(SubjectBasePlusGroupsDto):
 
     class Config:
         orm_mode = True
-
-

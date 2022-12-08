@@ -10,5 +10,3 @@ class SubjectDTO(SubjectBaseDto):
 
     class Config:
         orm_mode = True
-
-

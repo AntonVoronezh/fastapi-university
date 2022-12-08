@@ -6,8 +6,8 @@ from modules.student.dto import StudentDTO
 class GroupBaseDto(BaseModel):
     name: str
     course: int
-    faculty_id: int or None
-    housing_id: int or None
+    faculty_id: int | None
+    housing_id: int | None
 
 
 class GroupDTO(GroupBaseDto):

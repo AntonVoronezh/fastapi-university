@@ -13,20 +13,20 @@ student_router = api_router_factory("student")
 
 @student_router.get('/', response_model=list[StudentDTO], status_code=200,
                      name='Получение всех студентов')
-def get_all_student():
+def get_all_student() -> list[StudentDTO]:
     students = db.query(Student).all()
     return students
 
 
 @student_router.get('/{id}', response_model=StudentDTO, status_code=200, name='Получение студента')
-def get_student(id: int):
+def get_student(id: int) -> StudentDTO:
     student = db.query(Student).filter(Student.id == id).first()
 
     return student
 
 
 @student_router.post('/', response_model=StudentDTO, status_code=201, name='Запись нового студента')
-def create_student(item: StudentBaseDto = Body()):
+def create_student(item: StudentBaseDto = Body()) -> StudentDTO:
     new_student = Student(first_name=item.first_name, second_name=item.second_name,
                           family=item.family, age=item.age, group_id=item.group_id)
     new_student.info = StudentInfo(description='description', img='img', student_id=1, address='address')
@@ -38,7 +38,7 @@ def create_student(item: StudentBaseDto = Body()):
 
 
 @student_router.put('/{id}', response_model=StudentDTO, status_code=200, name='Обновление студента')
-def update_student(id: int, item: StudentBaseUpdateDto = Body()):
+def update_student(id: int, item: StudentBaseUpdateDto = Body()) -> StudentDTO:
     student_to_update = db.query(Student).filter(Student.id == id).first()
 
     student_to_update.first_name = item.first_name
@@ -52,7 +52,7 @@ def update_student(id: int, item: StudentBaseUpdateDto = Body()):
 
 
 @student_router.delete('/{id}', status_code=204, name='Удаление студента')
-def delete_student(id: int):
+def delete_student(id: int) -> StudentDTO:
     student_to_delete = db.query(Student).filter(Student.id == id).first()
 
     if student_to_delete is None:

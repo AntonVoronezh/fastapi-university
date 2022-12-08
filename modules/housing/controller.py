@@ -11,13 +11,13 @@ housing_router = api_router_factory("housing")
 
 @housing_router.get('/', response_model=list[HousingDTO], status_code=200,
                      name='Получение всех корпусов')
-def get_all_housing():
+def get_all_housing() -> list[HousingDTO]:
     faculties = db.query(Housing).all()
     return faculties
 
 
 @housing_router.get('/{id}', response_model=HousingDTO, status_code=200, name='Получение корпуса')
-def get_housing(id: int):
+def get_housing(id: int) -> HousingDTO:
     housing = db.query(Housing).filter(Housing.id == id).first()
 
     return housing

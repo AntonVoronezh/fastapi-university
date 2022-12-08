@@ -8,7 +8,7 @@ class StudentBaseDto(BaseModel):
     second_name: str
     family: str
     age: int
-    group_id: int or None
+    group_id: int | None
 
 
 class StudentBasePlusInfoDto(StudentBaseDto):
@@ -23,11 +23,11 @@ class StudentDTO(StudentBasePlusInfoDto):
 
 
 class StudentBaseUpdateDto(BaseModel):
-    first_name: str or None
-    second_name: str or None
-    family: str or None
-    age: int or None
-    group_id: int or None
+    first_name: str | None
+    second_name: str | None
+    family: str | None
+    age: int | None
+    group_id: int | None
 
     class Config:
         orm_mode = True

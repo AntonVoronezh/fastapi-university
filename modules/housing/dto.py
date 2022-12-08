@@ -5,7 +5,7 @@ from modules.group.dto import GroupDTO
 
 class HousingBaseDto(BaseModel):
     name: str
-    faculty_id: int or None
+    faculty_id: int | None
     groups: list[GroupDTO]
 
 
