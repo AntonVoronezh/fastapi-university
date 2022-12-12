@@ -1,7 +1,7 @@
 from db.db import db
 from models.faculty import Faculty
 from modules.faculty.dto import FacultyDTO
-from fastapi import Depends
+
 
 from shared.controllers import api_router_factory
 

@@ -14,3 +14,11 @@ class HousingDTO(HousingBaseDto):
 
     class Config:
         orm_mode = True
+
+
+class HousingCreateDTO(HousingBaseDto):
+    pass
+
+
+class HousingUpdateDTO(HousingBaseDto):
+    pass

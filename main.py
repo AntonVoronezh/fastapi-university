@@ -26,7 +26,7 @@ app = FastAPI()
 for r in (
         # student_router,
         # faculties_router,
-        # housing_router,
+        housing_router,
         group_router,
         subjects_router,
 ):
