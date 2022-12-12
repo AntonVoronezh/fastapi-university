@@ -11,3 +11,11 @@ class SubjectPlusGroupsDTO(SubjectBasePlusGroupsDto):
 
     class Config:
         orm_mode = True
+
+
+class SubjectPlusGroupsCreateDTO(SubjectBasePlusGroupsDto):
+    pass
+
+
+class SubjectPlusGroupsUpdateDTO(SubjectBasePlusGroupsDto):
+    pass

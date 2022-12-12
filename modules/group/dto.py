@@ -17,3 +17,11 @@ class GroupDTO(GroupBaseDto):
         orm_mode = True
 
 
+class GroupCreateDTO(GroupBaseDto):
+    pass
+
+
+class GroupUpdateDTO(GroupBaseDto):
+    pass
+
+
