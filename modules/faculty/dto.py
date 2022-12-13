@@ -19,3 +19,9 @@ class FacultyDTO(FacultyBaseDto):
         orm_mode = True
 
 
+class FacultyCreateDTO(FacultyBaseDto):
+    pass
+
+
+class FacultyUpdateDTO(FacultyBaseDto):
+    pass
