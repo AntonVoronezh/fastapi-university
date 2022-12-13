@@ -31,3 +31,11 @@ class StudentBaseUpdateDto(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class StudentCreateDTO(StudentBaseDto):
+    pass
+
+
+class StudentUpdateDTO(StudentBaseDto):
+    pass

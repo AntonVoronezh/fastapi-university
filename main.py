@@ -24,7 +24,7 @@ from modules.student.controller import student_router
 app = FastAPI()
 
 for r in (
-        # student_router,
+        student_router,
         faculties_router,
         housing_router,
         group_router,

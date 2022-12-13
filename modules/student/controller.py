@@ -1,10 +1,11 @@
 from http.client import HTTPException
-from fastapi import Body
+from fastapi import Body, Depends
 
 from db.db import db
 from models.student import Student
 from models.student_info import StudentInfo
-from modules.student.dto import StudentDTO, StudentBasePlusInfoDto, StudentBaseDto, StudentBaseUpdateDto
+from modules.student.dto import StudentDTO, StudentBaseDto, StudentBaseUpdateDto
+from modules.student.service import StudentService, get_student_service
 from shared.controllers import api_router_factory
 
 
@@ -13,16 +14,13 @@ student_router = api_router_factory("student")
 
 @student_router.get('/', response_model=list[StudentDTO], status_code=200,
                      name='Получение всех студентов')
-def get_all_student() -> list[StudentDTO]:
-    students = db.query(Student).all()
-    return students
+def get_all_student(student_service: StudentService = Depends(get_student_service)) -> list[StudentDTO]:
+    return student_service.list()
 
 
 @student_router.get('/{id}', response_model=StudentDTO, status_code=200, name='Получение студента')
-def get_student(id: int) -> StudentDTO:
-    student = db.query(Student).filter(Student.id == id).first()
-
-    return student
+def get_student(id: int, student_service: StudentService = Depends(get_student_service)) -> StudentDTO:
+    return student_service.get(id)
 
 
 @student_router.post('/', response_model=StudentDTO, status_code=201, name='Запись нового студента')
