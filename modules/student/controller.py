@@ -8,12 +8,11 @@ from modules.student.dto import StudentDTO, StudentBaseDto, StudentBaseUpdateDto
 from modules.student.service import StudentService, get_student_service
 from shared.controllers import api_router_factory
 
-
 student_router = api_router_factory("student")
 
 
 @student_router.get('/', response_model=list[StudentDTO], status_code=200,
-                     name='Получение всех студентов')
+                    name='Получение всех студентов')
 def get_all_student(student_service: StudentService = Depends(get_student_service)) -> list[StudentDTO]:
     return student_service.list()
 
@@ -23,16 +22,26 @@ def get_student(id: int, student_service: StudentService = Depends(get_student_s
     return student_service.get(id)
 
 
-@student_router.post('/', response_model=StudentDTO, status_code=201, name='Запись нового студента')
-def create_student(item: StudentBaseDto = Body()) -> StudentDTO:
-    new_student = Student(first_name=item.first_name, second_name=item.second_name,
-                          family=item.family, age=item.age, group_id=item.group_id)
-    new_student.info = StudentInfo(description='description', img='img', student_id=1, address='address')
+@student_router.post('/', response_model=StudentBaseDto, status_code=201, name='Запись нового студента')
+def update_student(item: StudentBaseDto = Body(),
+                   student_service: StudentService = Depends(get_student_service)):
+    new_student = {'first_name': item.first_name, 'second_name': item.second_name,
+                   'family': item.family, 'age': item.age, 'group_id': item.group_id,
+                   # 'info': dict(description='description', img='img', student_id=1, address='address')
+                   }
 
-    db.add(new_student)
-    db.commit()
+    return student_service.create(new_student)
 
-    return new_student
+
+# def create_student(item: StudentBaseDto = Body()) -> StudentDTO:
+#     new_student = Student(first_name=item.first_name, second_name=item.second_name,
+#                           family=item.family, age=item.age, group_id=item.group_id)
+#     new_student.info = StudentInfo(description='description', img='img', student_id=1, address='address')
+#
+#     db.add(new_student)
+#     db.commit()
+#
+#     return new_student
 
 
 @student_router.put('/{id}', response_model=StudentDTO, status_code=200, name='Обновление студента')
@@ -60,4 +69,3 @@ def delete_student(id: int) -> StudentDTO:
     db.commit()
     db.close()
     return student_to_delete
-
