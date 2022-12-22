@@ -4,7 +4,9 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
 
-engine = create_engine("postgresql+psycopg2://root:root@localhost/test_db", pool_pre_ping=True)
+from src.db.config import get_settings
+
+engine = create_engine(get_settings().database_url, pool_pre_ping=True)
 
 
 @lru_cache
@@ -23,20 +25,18 @@ def get_session() -> Generator[scoped_session, None, None]:
         Session.remove()
 
 
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
+# DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
 
-engine = create_engine(DATABASE_URL, pool_size=20, max_overflow=0)
+engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0)
 # engine.connect()
 # print(engine)
 
 
 # создаем модель, объекты которой будут храниться в бд
 Base = declarative_base()
-
 
 # создаем таблицы
 # Base.metadata.create_all(bind=engine)

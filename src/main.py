@@ -1,7 +1,11 @@
-# uvicorn main:app --reload
+# uvicorn src.main:app --reload
 # uvicorn root-file-name:root-function-in-the-file --reload
+import os
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from src.db.config import get_settings
 from src.modules.student.controller import student_router
 
 
@@ -16,7 +20,17 @@ from src.modules.student.controller import student_router
 # alembic downgrade -1 - отменить изменеия
 
 
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# load_dotenv(os.path.join(BASE_DIR, ".env"))
+# database_url = os.environ["DATABASE_URL"]
+
+# fff = get_settings().database_url
+
 app = FastAPI()
+
+# @app.get('/')
+# def gggg():
+#     return {'fff': fff}
 
 for r in (
         student_router,

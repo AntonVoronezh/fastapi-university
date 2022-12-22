@@ -4,12 +4,13 @@ from faker import Faker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from src.db.config import get_settings
 from src.models.student import Student
 
 fake = Faker('ru_RU')
 
-DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
-engine = create_engine(DATABASE_URL, pool_size=20, max_overflow=0)
+# DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
+engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0)
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
 db = SessionLocal()
 
