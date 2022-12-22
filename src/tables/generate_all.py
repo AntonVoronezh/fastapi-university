@@ -4,7 +4,7 @@ from faker import Faker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models.student import Student
+from src.models.student import Student
 
 fake = Faker('ru_RU')
 

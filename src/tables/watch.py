@@ -1,14 +1,11 @@
 
-from sqlalchemy import or_, and_, not_, desc, func, String, cast, union
-from db.db import SessionLocal
-from models.faculty import Faculty
-from models.housing import Housing
-from models.subject import Subject
-from models.group import Group
-from models.student import Student
-from models.group import Group
-from models.student_info import StudentInfo
-from models.faculty_info import FacultyInfo
+from sqlalchemy import not_, desc, func, String, cast
+from src.db.db import SessionLocal
+from src.models import Faculty
+from src.models import Housing
+from src.models import Subject
+from src.models.student import Student
+from src.models import Group
 
 session = SessionLocal()
 

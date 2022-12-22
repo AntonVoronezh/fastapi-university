@@ -1,11 +1,11 @@
 from http.client import HTTPException
 from fastapi import Body, Depends
 
-from db.db import db
-from models.student import Student
-from modules.student.dto import StudentDTO, StudentBaseDto, StudentBaseUpdateDto
-from modules.student.service import StudentService, get_student_service
-from shared.controllers import api_router_factory
+from src.db.db import db
+from src.models.student import Student
+from src.modules.student.dto import StudentDTO, StudentBaseDto, StudentBaseUpdateDto
+from src.modules.student.service import StudentService, get_student_service
+from src.shared.controllers import api_router_factory
 
 student_router = api_router_factory("student")
 

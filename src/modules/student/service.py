@@ -1,12 +1,12 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from db.db import get_session
-from models import Student
+from src.db.db import get_session
+from src.models import Student
 
-from modules.student.dto import StudentCreateDTO, StudentUpdateDTO
+from src.modules.student.dto import StudentCreateDTO, StudentUpdateDTO
 
-from shared.base_service import BaseService
+from src.shared.base_service import BaseService
 
 
 class StudentService(BaseService[Student, StudentCreateDTO, StudentUpdateDTO]):

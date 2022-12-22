@@ -2,9 +2,7 @@ from functools import lru_cache
 from typing import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-
-from db.config import get_settings
+from sqlalchemy.orm import scoped_session
 
 engine = create_engine("postgresql+psycopg2://root:root@localhost/test_db", pool_pre_ping=True)
 
@@ -26,7 +24,7 @@ def get_session() -> Generator[scoped_session, None, None]:
 
 
 
-from sqlalchemy import create_engine, Column, String, Integer
+from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
