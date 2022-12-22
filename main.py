@@ -2,11 +2,8 @@
 # uvicorn root-file-name:root-function-in-the-file --reload
 from fastapi import FastAPI
 
-from modules.faculty.controller import faculties_router
-from modules.group.controller import group_router
-from modules.housing.controller import housing_router
 from modules.student.controller import student_router
-from modules.subject.controller import subjects_router
+
 
 # https://www.compose.com/articles/schema-migrations-with-alembic-python-and-postgresql/
 # alembic init alembic
@@ -23,9 +20,5 @@ app = FastAPI()
 
 for r in (
         student_router,
-        faculties_router,
-        housing_router,
-        group_router,
-        subjects_router,
 ):
     app.include_router(r)

@@ -7,7 +7,7 @@ from sqlalchemy import pool
 
 sys.path = ['', '..'] + sys.path[1:]
 
-from db.db import DATABASE_URL
+from db.db import DATABASE_URL, Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

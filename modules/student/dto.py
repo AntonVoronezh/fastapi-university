@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from modules.student.info_dto import StudentInfoDTO
+
 
 
 class StudentBaseDto(BaseModel):
@@ -8,14 +8,11 @@ class StudentBaseDto(BaseModel):
     second_name: str
     family: str
     age: int
-    group_id: int | None
 
 
-class StudentBasePlusInfoDto(StudentBaseDto):
-    info: StudentInfoDTO
 
 
-class StudentDTO(StudentBasePlusInfoDto):
+class StudentDTO(StudentBaseDto):
     id: int
 
     class Config:
@@ -27,7 +24,6 @@ class StudentBaseUpdateDto(BaseModel):
     second_name: str | None
     family: str | None
     age: int | None
-    group_id: int | None
 
     class Config:
         orm_mode = True

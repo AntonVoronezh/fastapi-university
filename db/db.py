@@ -6,7 +6,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 from db.config import get_settings
 
-engine = create_engine(get_settings().database_url, pool_pre_ping=True)
+engine = create_engine("postgresql+psycopg2://root:root@localhost/test_db", pool_pre_ping=True)
 
 
 @lru_cache
