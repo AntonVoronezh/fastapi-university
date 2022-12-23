@@ -25,10 +25,11 @@ services:
     depends_on:
       - university_db
 
-
   university_api:
     container_name: university_api
-    build: .
+    build:
+      context: ./src
+      dockerfile: Dockerfile
     volumes:
       - .:/app
     ports:
@@ -38,4 +39,18 @@ services:
       - src/.env
     depends_on:
       - university_db
+
+
+  university_api_generate:
+    container_name: university_api_generate
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    env_file:
+      - src/.env
+    command: "python -m src.tables.generate_all"
+    depends_on:
+      - university_api
 
