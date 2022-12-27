@@ -2,7 +2,8 @@ from functools import lru_cache
 from typing import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import scoped_session, declarative_base, sessionmaker
 
 from src.db.config import get_settings
 
@@ -25,12 +26,12 @@ def get_session() -> Generator[scoped_session, None, None]:
         Session.remove()
 
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import declarative_base, sessionmaker
 
 # DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
 
-engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0)
+# engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0)
 # engine.connect()
 # print(engine)
 
@@ -38,10 +39,22 @@ engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0
 # создаем модель, объекты которой будут храниться в бд
 Base = declarative_base()
 
-# создаем таблицы
-# Base.metadata.create_all(bind=engine)
 
-# создаем сессию подключения к бд
-SessionLocal = sessionmaker(autoflush=False, bind=engine)
 
-db = SessionLocal()
+engine = create_async_engine(
+    get_settings().database_url, echo=True
+)
+async_session = sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
+)
+
+
+async def get_async_db():
+    async with async_session() as session:
+        try:  # noqa: WPS501
+            yield session
+        except Exception:
+            await session.rollback()
+        finally:
+            await session.close()
+
