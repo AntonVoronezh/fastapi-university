@@ -1,15 +1,14 @@
-from pydantic import BaseModel
+from typing import Generic, TypeVar
+from fastapi_camelcase import CamelModel
+from pydantic import BaseModel, validator
+from pydantic.generics import GenericModel
 
 
-
-
-class StudentBaseDto(BaseModel):
+class StudentBaseDto(CamelModel):
     first_name: str
     second_name: str
     family: str
     age: int
-
-
 
 
 class StudentDTO(StudentBaseDto):
@@ -35,3 +34,10 @@ class StudentCreateDTO(StudentBaseDto):
 
 class StudentUpdateDTO(StudentBaseDto):
     pass
+
+#
+# TDto = TypeVar("TDto", bound=BaseModel)
+#
+#
+# class ListTotalDto(GenericModel, Generic[TDto]):
+#     results: list[TDto]
