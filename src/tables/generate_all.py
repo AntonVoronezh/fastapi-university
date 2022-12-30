@@ -10,7 +10,7 @@ from src.models.student import Student
 fake = Faker('ru_RU')
 
 # DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
-engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0)
+engine = create_engine(get_settings().database_url_q, pool_size=20, max_overflow=0)
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
 db = SessionLocal()
 

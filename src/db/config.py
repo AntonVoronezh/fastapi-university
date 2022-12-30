@@ -11,6 +11,7 @@ from pydantic import BaseSettings, PostgresDsn
 
 class Settings(BaseSettings):
     database_url: PostgresDsn
+    database_url_q: PostgresDsn
     # database_url = db_url
 
     class Config:

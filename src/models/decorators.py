@@ -1,5 +1,7 @@
 import functools
 
+from src.shared.exceptions import NotFoundException
+
 
 def _check_exist():
     def wrapper(func):
