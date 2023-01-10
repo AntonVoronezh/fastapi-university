@@ -1,7 +1,7 @@
 from fastapi import Depends, Body
 from starlette import status
 
-from src.modules.student.dto import StudentCreateDTO
+from src.modules.student.dto import StudentCreateDTO, StudentDTO
 from src.modules.student.service import StudentService
 from src.shared.controllers import api_router_factory
 
@@ -9,7 +9,7 @@ student_router = api_router_factory("student")
 
 
 @student_router.get('/',
-                    # response_model=list[StudentDTO],
+                    response_model=list[StudentDTO],
                     summary='Получение всех студентов')
 async def get_all(student_service: StudentService = Depends(StudentService)):
     return await student_service.all()
@@ -22,7 +22,7 @@ async def get_by_id(id: int, service: StudentService = Depends(StudentService)):
 
 @student_router.post(
     "/",
-    # response_model=StudentDTO,
+    response_model=StudentDTO,
     summary="Создание студента",
 )
 async def create(
@@ -34,7 +34,7 @@ async def create(
 
 @student_router.put(
     "/{id}",
-    # response_model=StudentDTO,
+    response_model=StudentDTO,
     summary="Обновление студента",
 )
 async def update(

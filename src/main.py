@@ -8,6 +8,8 @@ from fastapi import FastAPI
 from src.db.config import get_settings
 from src.modules.student.controller import student_router
 
+# https://fastapi-users.github.io/
+# https://harrisonmorgan.dev/2021/02/15/getting-started-with-fastapi-users-and-alembic/
 
 # https://www.compose.com/articles/schema-migrations-with-alembic-python-and-postgresql/
 # alembic init src/alembic
@@ -26,13 +28,53 @@ from src.modules.student.controller import student_router
 
 # fff = get_settings().database_url
 
-app = FastAPI()
+# app = FastAPI()
 
 # @app.get('/')
 # def gggg():
 #     return {'fff': fff}
 
-for r in (
-        student_router,
-):
-    app.include_router(r)
+# for r in (
+#         student_router,
+# ):
+#     app.include_router(r)
+
+
+
+
+from fastapi import Depends, FastAPI
+
+from src.db.db import User
+from src.modules.user.dto import UserRead, UserCreate, UserUpdate
+from src.modules.user.service import fastapi_users, auth_backend, current_active_user
+
+app = FastAPI()
+
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
+)
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_reset_password_router(),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_verify_router(UserRead),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+    prefix="/users",
+    tags=["users"],
+)
+
+
+@app.get("/authenticated-route")
+async def authenticated_route(user: User = Depends(current_active_user)):
+    return {"message": f"Hello {user.email}!"}

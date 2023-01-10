@@ -1,6 +1,8 @@
 from functools import lru_cache
 from typing import Generator
 
+from fastapi import Depends
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import scoped_session, declarative_base, sessionmaker
@@ -39,8 +41,6 @@ def get_session() -> Generator[scoped_session, None, None]:
 # создаем модель, объекты которой будут храниться в бд
 Base = declarative_base()
 
-
-
 engine = create_async_engine(
     get_settings().database_url, echo=True
 )
@@ -58,3 +58,15 @@ async def get_async_db():
         finally:
             await session.close()
 
+
+class User(SQLAlchemyBaseUserTableUUID, Base):
+    pass
+
+
+async def create_db_and_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_db)):
+    yield SQLAlchemyUserDatabase(session, User)
