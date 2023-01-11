@@ -19,18 +19,6 @@ from src.modules.user.service import fastapi_users, auth_backend, current_active
 # alembic upgrade head - применить изменения
 # alembic current - текущие изменения
 # alembic downgrade -1 - отменить изменеия
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# load_dotenv(os.path.join(BASE_DIR, ".env"))
-# database_url = os.environ["DATABASE_URL"]
-# fff = get_settings().database_url
-# app = FastAPI()
-# @app.get('/')
-# def gggg():
-#     return {'fff': fff}
-# for r in (
-#         student_router,
-# ):
-#     app.include_router(r)
 
 app = FastAPI()
 

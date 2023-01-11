@@ -7,8 +7,6 @@ from src.shared.mixins import CRUDRepository
 from src.shared.utils import filter_by_gen
 
 
-
-
 class StudentService(CRUDRepository):
     model = models.Student
 

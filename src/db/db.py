@@ -28,16 +28,6 @@ def get_session() -> Generator[scoped_session, None, None]:
         Session.remove()
 
 
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import declarative_base, sessionmaker
-
-# DATABASE_URL = "postgresql+psycopg2://root:root@localhost/test_db"
-
-# engine = create_engine(get_settings().database_url, pool_size=20, max_overflow=0)
-# engine.connect()
-# print(engine)
-
-
 # создаем модель, объекты которой будут храниться в бд
 Base = declarative_base()
 

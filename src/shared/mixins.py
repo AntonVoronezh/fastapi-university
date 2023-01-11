@@ -1,8 +1,8 @@
 from fastapi import Depends
 from pydantic import BaseModel
 from sqlalchemy import insert, update, delete, select
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.db import get_async_db
 from src.shared.exceptions import DuplicateException
@@ -40,7 +40,6 @@ class BaseMixin:
     @property
     def model(self):
         raise NotImplementedError
-
 
 
 class ReceiveMixin(BaseMixin):
