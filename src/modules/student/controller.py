@@ -1,8 +1,10 @@
 from fastapi import Depends, Body
 from starlette import status
 
+from src.db.db import User
 from src.modules.student.dto import StudentCreateDTO, StudentDTO
 from src.modules.student.service import StudentService
+from src.modules.user.service import current_active_user
 from src.shared.controllers import api_router_factory
 
 student_router = api_router_factory("student")
@@ -11,7 +13,7 @@ student_router = api_router_factory("student")
 @student_router.get('/',
                     response_model=list[StudentDTO],
                     summary='Получение всех студентов')
-async def get_all(student_service: StudentService = Depends(StudentService)):
+async def get_all(student_service: StudentService = Depends(StudentService), user: User = Depends(current_active_user)):
     return await student_service.all()
 
 
