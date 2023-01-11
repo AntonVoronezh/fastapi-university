@@ -1,11 +1,19 @@
+import contextlib
+import asyncio
 from random import randint
 
 from faker import Faker
+from fastapi import Depends
+from fastapi_users.exceptions import UserAlreadyExists
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from src.db.config import get_settings
+from src.db.db import get_user_db, get_async_db
 from src.models.student import Student
+from src.modules.user.dto import UserCreate
+from src.modules.user.service import UserManager
 
 fake = Faker('ru_RU')
 
@@ -26,3 +34,31 @@ for item in range(100):
     db.add(student)
 db.commit()
 db.close()
+
+
+# создание юзера
+async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
+    yield UserManager(user_db)
+
+
+get_async_session_context = contextlib.asynccontextmanager(get_async_db)
+get_user_db_context = contextlib.asynccontextmanager(get_user_db)
+get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
+
+
+async def create_user(email: str, password: str, is_superuser: bool = False):
+    try:
+        async with get_async_session_context() as session:
+            async with get_user_db_context(session) as user_db:
+                async with get_user_manager_context(user_db) as user_manager:
+                    user = await user_manager.create(
+                        UserCreate(
+                            email=email, password=password, is_superuser=is_superuser
+                        )
+                    )
+                    print(f"User created {user}")
+    except UserAlreadyExists:
+        print(f"User {email} already exists")
+
+
+asyncio.run(create_user('2@2.ru', '2', True))
