@@ -11,6 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 from src.db.config import get_settings
 from src.db.db import get_user_db, get_async_db
+from src.models import StudentInfo
 from src.models.student import Student
 from src.modules.user.dto import UserCreate
 from src.modules.user.service import UserManager
@@ -32,6 +33,16 @@ for item in range(100):
     student = Student(first_name=first_name, second_name=second_name, family=family, age=age)
 
     db.add(student)
+db.commit()
+db.close()
+
+# в студентов добавить описание (один к одному)
+for item in db.query(Student):
+    print(item.id)
+    description = fake.paragraphs(nb=4)
+    address = fake.address()
+    item.info = StudentInfo(description=description, student_id=item.id, address=address)
+    db.add(item)
 db.commit()
 db.close()
 

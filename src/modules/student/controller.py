@@ -17,7 +17,7 @@ async def get_all(student_service: StudentService = Depends(StudentService), use
     return await student_service.all()
 
 
-@student_router.get('/{id}', status_code=200, summary='Получение студента')
+@student_router.get('/{id}',  response_model=StudentDTO, status_code=200, summary='Получение студента')
 async def get_by_id(id: int, service: StudentService = Depends(StudentService)):
     return await service.get(id)
 

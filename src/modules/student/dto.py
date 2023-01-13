@@ -1,12 +1,15 @@
 from fastapi_camelcase import CamelModel
 from pydantic import BaseModel
 
+from src.modules.student_info.dto import StudentInfoDTO
+
 
 class StudentBaseDto(CamelModel):
     first_name: str
     second_name: str
     family: str
     age: int
+    info: StudentInfoDTO
 
 
 class StudentDTO(StudentBaseDto):

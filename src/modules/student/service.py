@@ -1,5 +1,6 @@
 from sqlalchemy import func
 from sqlalchemy.future import select
+from sqlalchemy.orm import joinedload
 
 import src.models as models
 from src.models.decorators import check_exist
@@ -31,5 +32,5 @@ class StudentService(CRUDRepository):
     async def get(self, id: int = None, **filters):
         filter_by = filter_by_gen(id, **filters)
 
-        query = select(self.model).filter_by(**filter_by)
+        query = (select(self.model).options(joinedload(self.model.info)).filter_by(**filter_by))
         return await self.return_scalar_(query)
